@@ -1,0 +1,26 @@
+{
+  "name": "world-of-players",
+  "version": "1.0.0",
+  "description": "Online browser game where players can use their creativity to create amazing and boundless world",
+  "scripts": {
+    "app:install": "lerna bootstrap",
+    "app:clean": "lerna clean --yes",
+    "app:build": "lerna run --parallel build",
+    "backend:start": "lerna run --scope world-of-players-backend start",
+    "backend:dev": "lerna run --stream --scope world-of-players-backend dev",
+    "shared:publish": "lerna run --scope world-of-players-shared publish",
+    "shared:dev": "lerna run --stream --scope world-of-players-shared dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aktyn/world-of-players.git"
+  },
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Aktyn/world-of-players/issues"
+  },
+  "homepage": "https://github.com/Aktyn/world-of-players#readme",
+  "devDependencies": {
+    "lerna": "^5.5.1"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "world-of-players-shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "publish": "rimraf lib && NODE_ENV=prod tsc -p ./tsconfig.json",
+    "build": "npm run publish",
+    "dev": "set NODE_ENV=dev&& nodemon --watch ./src --exec \"tsc -p ./tsconfig.json\" -e ts"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "nodemon": "^2.0.19",
+    "typescript": "^4.8.3"
+  }
+}

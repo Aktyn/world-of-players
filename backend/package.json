@@ -1,0 +1,22 @@
+{
+  "name": "world-of-players-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/main.js",
+  "scripts": {
+    "publish": "rimraf lib && NODE_ENV=prod tsc -p ./tsconfig.json",
+    "build": "npm run publish",
+    "dev": "set NODE_ENV=dev&& nodemon --watch ./src --exec \"tsc -p ./tsconfig.json && npm start\" -e ts",
+    "start": "node ./dist/main.js"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "world-of-players-shared": "file:../shared"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.18",
+    "nodemon": "^2.0.19",
+    "typescript": "^4.8.3"
+  }
+}
