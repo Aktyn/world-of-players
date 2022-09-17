@@ -1,8 +1,8 @@
 {
   "packages": [
+    "shared",
     "backend",
-    "frontend",
-    "shared"
+    "frontend"
   ],
   "version": "1.0.0",
   "npmClient": "yarn",

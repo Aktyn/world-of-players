@@ -6,9 +6,9 @@
   "scripts": {
     "app:install": "lerna bootstrap",
     "app:clean": "lerna clean --yes",
-    "app:build": "lerna run --parallel build",
+    "app:build": "lerna run build",
     "app:dev": "lerna run --parallel dev",
-    "app:test": "lerna run --parallel test",
+    "app:test": "lerna run test",
     "app:lint": "lerna run --parallel lint",
     "new-version": "lerna version --conventional-commits --no-push --no-git-tag-version --no-commit-hooks --no-changelog --yes",
     "backend:dev": "lerna run --stream --scope @world-of-players/backend dev",
