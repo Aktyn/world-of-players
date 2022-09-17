@@ -1,4 +1,10 @@
 {
-  "packages": ["backend", "shared"],
-  "version": "1.0.0"
+  "packages": [
+    "backend",
+    "frontend",
+    "shared"
+  ],
+  "version": "1.0.0",
+  "npmClient": "yarn",
+  "useWorkspaces": true
 }
