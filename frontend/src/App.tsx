@@ -1,6 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Config } from '@world-of-players/shared'
+import logo from './logo.svg'
+import './App.css'
 
 function App() {
   return (
@@ -18,9 +18,12 @@ function App() {
         >
           Learn React
         </a>
+        <p>
+          Example value: <strong>{Config.EXAMPLE_VALUE}</strong>
+        </p>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

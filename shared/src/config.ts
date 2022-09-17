@@ -1,3 +1,3 @@
 export const Config = {
-  EXAMPLE_VALUE: 'example xyz'
+  EXAMPLE_VALUE: 'example xyz',
 }
