@@ -1,18 +1,18 @@
 {
   "name": "@world-of-players/frontend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/node": "^18.7.18",
-    "@types/react-dom": "^18.0.6",
     "@types/react": "^18.0.20",
-    "@world-of-players/shared": "1.0.0",
+    "@types/react-dom": "^18.0.6",
+    "@world-of-players/shared": "^1.0.1",
+    "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "react": "^18.2.0",
     "typescript": "^4.8.3",
     "web-vitals": "^3.0.2"
   },
@@ -47,7 +47,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
+    "test": "CI=true react-scripts test --watchAll=false --coverage",
     "test:watch": "react-scripts test",
     "format": "prettier --write src/**/*{.ts,.tsx}",
     "lint": "cross-env npm run build && npm run format && eslint --ext .js,.ts,.tsx src"

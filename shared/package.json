@@ -1,6 +1,6 @@
 {
   "name": "@world-of-players/shared",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -11,7 +11,7 @@
     "dev": "cross-env NODE_ENV=dev&& nodemon --watch ./src --exec \"npm run build\" -e ts",
     "format": "prettier --write src/**/*{.ts,.tsx}",
     "lint": "cross-env npm run build && npm run format && eslint --ext .js,.ts,.tsx src",
-    "test": "npm run build && jest --coverage --no-cache",
+    "test": "npm run build && jest --coverage --ci --no-cache",
     "test:watch": "npm run build && jest --watch --no-cache"
   },
   "author": "",
