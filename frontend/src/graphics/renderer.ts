@@ -33,7 +33,6 @@ export class Renderer {
   draw() {
     //TODO
     console.log(this.rectPosition)
-    this.gl.clearColor(255, 0, 0, 255)
   }
 
   onResize() {
