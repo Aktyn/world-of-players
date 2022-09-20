@@ -50,7 +50,7 @@ export class Repeatable<ArgsType extends [] = []> {
     this.interval = setInterval(
       this.repeatableFunction,
       this.options.frequency,
-      ...(this.options.functionArguments ?? []),
+      ...((this.options.functionArguments ?? []) as ArgsType),
     ) as never
   }
 

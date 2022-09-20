@@ -19,7 +19,7 @@ function App() {
           Learn React
         </a>
         <p>
-          Example value: <strong>{Config.EXAMPLE_VALUE}</strong>
+          Server port: <strong>{Config.SERVER_PORT}</strong>
         </p>
       </header>
     </div>
