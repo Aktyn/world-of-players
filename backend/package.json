@@ -1,6 +1,6 @@
 {
   "name": "@world-of-players/backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "./dist/main.js",
   "private": true,
@@ -27,7 +27,7 @@
     "@prisma/client": "^4.2.1",
     "@sendgrid/mail": "^7.7.0",
     "@types/express": "^4.17.13",
-    "@world-of-players/shared": "1.0.0",
+    "@world-of-players/shared": "^1.0.1",
     "class-validator": "^0.13.2",
     "dotenv": "^16.0.1",
     "handlebars": "^4.7.7",
