@@ -43,8 +43,6 @@ export class SessionService {
         }),
       )
       .then((sessions) => {
-        this.logger.log(`Loaded ${sessions.length} sessions`)
-
         for (const session of sessions) {
           this.sessions.set(session.accessToken, {
             ...pick(session, 'accessToken', 'userId'),
@@ -53,15 +51,13 @@ export class SessionService {
           })
         }
       })
-      .catch(this.logger.error)
+      .catch(() => void 0)
 
     // Remove expired sessions every hour
-    new Repeatable(() => this.removeExpired().catch(this.logger.error), {
+    new Repeatable(() => this.removeExpired().catch(() => void 0), {
       runImmediately: false,
       frequency: 1000 * 60 * 60,
     })
-
-    this.logger.log('Session service initialized')
   }
 
   private removeExpired() {
@@ -82,7 +78,6 @@ export class SessionService {
         },
       })
       .then((res) => {
-        this.logger.log(`Removed ${res.count} expired sessions`)
         return res.count
       })
   }
@@ -122,7 +117,7 @@ export class SessionService {
           expiresTimestamp,
         },
       })
-      .catch(this.logger.error)
+      .catch(() => void 0)
 
     return session
   }
