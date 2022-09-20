@@ -1,4 +1,5 @@
 import type { Point } from '@world-of-players/shared'
+import { loadResources } from './resources'
 
 export class Renderer {
   private readonly canvas: HTMLCanvasElement
@@ -24,6 +25,10 @@ export class Renderer {
     }) as WebGL2RenderingContext
 
     window.addEventListener('resize', this.resizeListener)
+
+    loadResources().then((resources) => {
+      console.log(resources)
+    })
   }
 
   destroy() {
