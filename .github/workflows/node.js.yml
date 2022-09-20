@@ -26,3 +26,5 @@ jobs:
     - run: yarn run app:build
     - run: yarn run app:lint
     - run: yarn run app:test
+      env:
+        CI: true
