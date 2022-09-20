@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
-  Logger,
   NotFoundException,
 } from '@nestjs/common'
 import type { Prisma, User } from '@prisma/client'
@@ -67,8 +66,6 @@ const selectUserPrivate: { [key in keyof UserPrivate]: true } = {
 
 @Injectable()
 export class UserService {
-  private readonly logger = new Logger(UserService.name)
-
   constructor(
     private prisma: PrismaService,
     private emailService: EmailService,
@@ -186,14 +183,7 @@ export class UserService {
     const loggedUser = authorizedUsers[0]
 
     const session = this.sessionService.createSession(loggedUser)
-    this.logger.log(
-      `User logged in: ${loggedUser.name}, id: ${loggedUser.id}`,
-      'REST API',
-    )
     const now = Date.now()
-    this.updateUserLastLogin(loggedUser.id, undefined, now).catch(
-      this.logger.error,
-    )
     return {
       user: parseToUserPrivate(loggedUser, { lastLogin: now }),
       accessToken: session.accessToken,
@@ -218,7 +208,7 @@ export class UserService {
     }
 
     const now = Date.now()
-    this.updateUserLastLogin(user.id, undefined, now).catch(this.logger.error)
+    this.updateUserLastLogin(user.id, undefined, now).catch(() => void 0)
     return parseToUserPrivate(user, { lastLogin: now })
   }
 
@@ -265,10 +255,6 @@ export class UserService {
       data,
       select: selectUserPrivate,
     })
-    this.logger.log(
-      `New user created {id: ${createdUser.id}; name: ${createdUser.name}}`,
-      'REST API',
-    )
     await this.emailService.sendConfirmationEmail({
       to: createdUser.email,
       firstName: createdUser.name,
@@ -311,17 +297,12 @@ export class UserService {
       })
 
       const session = this.sessionService.createSession(user)
-      this.logger.log(
-        `User confirmed email: ${user.name}, id: ${user.id}`,
-        'REST API',
-      )
       return {
         user: parseToUserPrivate(user),
         accessToken: session.accessToken,
         expires: session.expiresTimestamp,
       }
     } catch (err) {
-      this.logger.error(err)
       throw new BadRequestException({
         error: ErrorCode.INVALID_ERROR_CONFIRMATION_CODE,
       })

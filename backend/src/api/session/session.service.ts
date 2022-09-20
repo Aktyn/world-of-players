@@ -1,4 +1,4 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import type { User } from '@prisma/client'
 import {
   Config,
@@ -20,7 +20,6 @@ interface SessionSchema {
 
 @Injectable()
 export class SessionService {
-  private readonly logger = new Logger(SessionService.name)
   private readonly sessions = new Map<string, SessionSchema>()
 
   constructor(private prisma: PrismaService) {
