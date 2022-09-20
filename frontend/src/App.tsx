@@ -1,4 +1,3 @@
-import { Config } from '@world-of-players/shared'
 import logo from './logo.svg'
 import './App.css'
 
@@ -18,9 +17,6 @@ function App() {
         >
           Learn React
         </a>
-        <p>
-          Server port: <strong>{Config.SERVER_PORT}</strong>
-        </p>
       </header>
     </div>
   )

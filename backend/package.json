@@ -11,7 +11,7 @@
     "start": "node ./dist/main.js",
     "format": "prettier --write src/**/*{.ts,.tsx}",
     "lint": "cross-env npm run build && npm run format && eslint --ext .js,.ts,.tsx src",
-    "test": "npm run build && jest --coverage --ci --no-cache",
+    "test": "npm run build && jest --coverage --ci --no-cache --passWithNoTests",
     "test:watch": "npm run build && jest --watch --no-cache",
     "prisma:migrate": "prisma migrate dev --name init"
   },
