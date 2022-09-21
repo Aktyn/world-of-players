@@ -6,6 +6,7 @@
   "trailingComma": "all",
   "bracketSameLine": true,
   "endOfLine": "auto",
+  "array-element-newline": ["error", "consistent"],
   "overrides": [
     {
       "files": ["*.yml", "*.yaml"],

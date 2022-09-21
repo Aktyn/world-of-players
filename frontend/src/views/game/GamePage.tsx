@@ -11,7 +11,10 @@ export const GamePage = () => {
     }
 
     const renderer = new Renderer(canvasRef.current)
-    renderer.draw()
+
+    renderer.downloadResources().then(() => {
+      renderer.draw()
+    })
 
     return () => renderer.destroy()
   }, [])
