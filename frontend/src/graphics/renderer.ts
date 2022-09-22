@@ -1,5 +1,6 @@
-import { randomFloat } from '@world-of-players/shared'
+// import { randomFloat } from '@world-of-players/shared'
 import { loadResources, resources } from './resources'
+import { Shader } from './shader'
 
 export class Renderer {
   private readonly canvas: HTMLCanvasElement
@@ -26,37 +27,6 @@ export class Renderer {
     await loadResources()
   }
 
-  createShader(type: number, source: string) {
-    const shader = this.gl.createShader(type) as WebGLShader
-    this.gl.shaderSource(shader, source)
-    this.gl.compileShader(shader)
-    const success = this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)
-
-    if (!success) {
-      console.log(this.gl.getShaderInfoLog(shader))
-      this.gl.deleteShader(shader)
-      throw new Error('Failed to compile shader')
-    }
-
-    return shader
-  }
-
-  createProgram(vertexShader: WebGLShader, fragmentShader: WebGLShader) {
-    const program = this.gl.createProgram() as WebGLProgram
-    // this.gl.deleteProgram(program) // TODO: remember to call it when shader won't be needed anymore
-    this.gl.attachShader(program, vertexShader)
-    this.gl.attachShader(program, fragmentShader)
-    this.gl.linkProgram(program)
-    const success = this.gl.getProgramParameter(program, this.gl.LINK_STATUS)
-    if (!success) {
-      console.log(this.gl.getProgramInfoLog(program))
-      this.gl.deleteProgram(program)
-      throw new Error('Failed to create program')
-    }
-
-    return program
-  }
-
   destroy() {
     window.removeEventListener('resize', this.resizeListener)
   }
@@ -66,18 +36,23 @@ export class Renderer {
       throw new Error('Shaders are not loaded')
     }
 
-    const vertexShader = this.createShader(this.gl.VERTEX_SHADER, resources.shaders.mainVertex)
-    const fragmentShader = this.createShader(
-      this.gl.FRAGMENT_SHADER,
+    this.gl.viewport(0, 0, this.resolution.width, this.resolution.height)
+    // const colorLocation = this.gl.getUniformLocation(program, 'u_color')
+    // Clear the canvas
+    this.gl.clearColor(0, 0, 0, 0)
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT)
+
+    const mainShader = new Shader(
+      this.gl,
+      resources.shaders.mainVertex,
       resources.shaders.mainFragment,
+      [{ name: 'a_position' }],
     )
 
-    const program = this.createProgram(vertexShader, fragmentShader) as WebGLProgram
-
-    const positionAttributeLocation = this.gl.getAttribLocation(program, 'a_position')
+    // Tell it to use our program (pair of shaders)
+    mainShader.use()
 
     const positionBuffer = this.gl.createBuffer()
-    const colorBuffer = this.gl.createBuffer()
     //GL.deleteBuffer(vertex_buff); //TODO: remember to call it when buffer won't be needed anymore
 
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer)
@@ -85,50 +60,21 @@ export class Renderer {
     // const vao = this.gl.createVertexArray() //Vertex Array Object
     // this.gl.bindVertexArray(vao)
 
-    this.gl.enableVertexAttribArray(positionAttributeLocation)
-
-    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    const size = 2 // 2 components per iteration
-    const type = this.gl.FLOAT //the data is 32bit float
-    const normalize = false // don't normalize the data
-    const stride = 0 // 0 = move forward size * sizeof(type) each iteration to get the next position
-    const offset = 0 // start at the beginning of the buffer
-
-    this.gl.vertexAttribPointer(positionAttributeLocation, size, type, normalize, stride, offset)
-
-    this.gl.viewport(0, 0, this.resolution.width, this.resolution.height)
-
-    // Clear the canvas
-    this.gl.clearColor(0, 0, 0, 0)
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT)
-
-    // Tell it to use our program (pair of shaders)
-    this.gl.useProgram(program)
+    mainShader.enableAttribute('a_position')
 
     // Bind the attribute/buffer set we want.
     // this.gl.bindVertexArray(vao)
 
-    // const colorLocation = this.gl.getUniformLocation(program, 'u_color')
-
     for (let i = 0; i < 1; i++) {
       this.setRectangle(
-        randomFloat(-1, 1),
-        randomFloat(-1, 1),
-        randomFloat(-1, 1),
-        randomFloat(-1, 1),
+        0, //randomFloat(-1, 1),
+        0, //randomFloat(-1, 1),
+        1, //randomFloat(-1, 1),
+        1, //randomFloat(-1, 1),
       )
 
-      this.gl.bindBuffer(this.gl.ARRAY_BUFFER, colorBuffer)
-      const colorAttributeLocation = this.gl.getAttribLocation(program, 'a_color')
-      this.gl.enableVertexAttribArray(colorAttributeLocation)
-      this.gl.vertexAttribPointer(colorAttributeLocation, 2, this.gl.FLOAT, false, 0, 0)
       // this.gl.uniform4f(colorLocation, Math.random(), Math.random(), Math.random(), 1)
-      //!
-      this.gl.bufferData(
-        this.gl.ARRAY_BUFFER,
-        new Float32Array([1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1]),
-        this.gl.STATIC_DRAW,
-      )
+
       const primitiveType = this.gl.TRIANGLE_FAN
       const offsetP = 0
       const count = 4
@@ -137,6 +83,7 @@ export class Renderer {
 
     // TODO: experiment with this.gl.drawElements(this.gl.TRIANGLE_FAN, 3, this.gl.UNSIGNED_SHORT, 0)
     // TODO: use GL.drawArrays for rendering particles and drawElements for rendering objects
+    // setTimeout(() => this.draw.call(this), 500)
   }
 
   setRectangle(x: number, y: number, width: number, height: number) {
