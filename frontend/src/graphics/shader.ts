@@ -28,9 +28,9 @@ export class Shader<AttributeName extends string> {
     this.program = this.createProgram(vertexShader, fragmentShader) as WebGLProgram
 
     for (const attribute of attributes) {
-      const attributeLocation = this.gl.getAttribLocation(this.program, attribute.name)
+      const location = this.gl.getAttribLocation(this.program, attribute.name)
       this.attributesPositions[attribute.name] = {
-        location: attributeLocation,
+        location: location,
         size: attribute.size ?? 2,
         type: attribute.type ?? this.gl.FLOAT,
         normalize: attribute.normalize ?? false,
@@ -79,21 +79,22 @@ export class Shader<AttributeName extends string> {
 
     this.gl.enableVertexAttribArray(attributePosition.location)
 
-    // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-    // const size = 2 // 2 components per iteration
-    const type = this.gl.FLOAT //the data is 32bit float
-    const normalize = false // don't normalize the data
-    const stride = 0 // 0 = move forward size * sizeof(type) each iteration to get the next position
-    const offset = 0 // start at the beginning of the buffer
-
     this.gl.vertexAttribPointer(
       attributePosition.location,
       attributePosition.size,
-      type,
-      normalize,
-      stride,
-      offset,
+      attributePosition.type,
+      attributePosition.normalize,
+      attributePosition.stride,
+      attributePosition.offset,
     )
+  }
+
+  private getUniformLocation(name: string) {
+    return this.gl.getUniformLocation(this.program, name)
+  }
+
+  setUniformInt(name: string, value: number) {
+    this.gl.uniform1i(this.getUniformLocation(name), value)
   }
 
   use() {
