@@ -1,10 +1,12 @@
 {
-  "printWidth": 80,
+  "printWidth": 100,
   "singleQuote": true,
   "tabWidth": 2,
   "semi": false,
   "trailingComma": "all",
+  "bracketSameLine": true,
   "endOfLine": "auto",
+  "array-element-newline": ["error", "consistent"],
   "overrides": [
     {
       "files": ["*.yml", "*.yaml"],
